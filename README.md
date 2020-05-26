@@ -1,7 +1,9 @@
-# Discord Trial Planner
+# ESO Guild helper for Discord
 
-This is a bot for discord to plan eso trials. I am sure you can plan other things but
-it was built specifically to cooridinate ESO trials.
+This is a discord bot for helping with many things that are required to run a guild.
+This bots to aim in helping event planning, guild raffles, trial planning, and other things
+that are needed along the way. Of course a bot would not be complete without a couple of easter
+eggs. Please see the changelog for changes and I will list the features in the README in the future.
 
 ## Installation
 
