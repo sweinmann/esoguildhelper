@@ -3,3 +3,4 @@ bot.conf
 __pycache__/*
 test.py
 */__pycache__/*
+*test*
