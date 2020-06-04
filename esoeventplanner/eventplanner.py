@@ -4,11 +4,8 @@ from os import path
 from sys import exit
 
 class eventplanner (object):
-    def __init__(self, **kwargs):
-        self.__dict__.update(**kwargs)
-        if not hasattr (self, 'servername'):
-            print ("You must pass in a server name with instantiation")
-            exit(1)
+    def __init__(self, servername):
+        self.servername = servername
         self.daysofweek = {
             0: 'Monday',
             1: 'Tuesday',
@@ -39,17 +36,15 @@ class eventplanner (object):
 
     def initalize(self):
         ''' This will create the database for the events named, events.db. If it detects this file it will not be run again for protection'''
-        if path.exists("{}.db".format(self.servername)):
-            return("This has already been initalized, skipping for your protection.")
-        else:
-            self.cursor.execute("""CREATE TABLE events (
-                               date text,
-                               author text,
-                               description text,
-                               time text,
-                               host text
-                           )""")
-            return ("The database and table has been created.")
+        print ("initalizing server {}".format(self.servername))
+        self.cursor.execute("""CREATE TABLE events (
+                           date text,
+                           author text,
+                           description text,
+                           time text,
+                           host text
+                       )""")
+        return ("The database and table has been created.")
 
     def _DBOPEN_(self):
         self.conn = sqlite3.connect("{}.db".format(self.servername))
@@ -60,18 +55,16 @@ class eventplanner (object):
         self.conn.close()
 
     def create_event(self, date, description, time, host, author):
-        if path.exists("{}.db".format(self.servername)):
-            self.createquery = """INSERT INTO events(date, author, description, time, host)
-                                    VALUES (?, ?, ?, ?, ?)"""
-            self.createvalues = (date, author, description, time, host)
-            self.cursor.execute(self.createquery, self.createvalues)
-            self.conn.commit()
-        else:
-            raise FileNotFound
+        self.createquery = """INSERT INTO events(date, author, description, time, host)
+                                VALUES (?, ?, ?, ?, ?)"""
+        self.createvalues = (date, author, description, time, host)
+        self.cursor.execute(self.createquery, self.createvalues)
+        self.conn.commit()
 
-    def get_all_events(self):
-        if path.exists("{}.db".format(self.servername)):
-            self.getquery = """SELECT * FROM events"""
-        else:
-            raise FileNotFound
-        return(self.cursor.execute(self.getquery).fetchall())
+    def get_all_events(self, specdate):
+        return(self.cursor.execute("SELECT * FROM events WHERE date = '%s'" % specdate).fetchall())
+
+    def get_event_by_date(self, date):
+        self.getquery = """SELECT * FROM events where date=?"""
+        self.queryvars = (date,)
+        return self.cursor.execute(self.getquery, self.queryvars)
