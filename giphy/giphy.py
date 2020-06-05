@@ -20,7 +20,7 @@ class giphy(object):
             self.data = json.load(jsonFile)
 
     def __save_json(self):
-        with open (self.giphy, "w") as jsonFile:
+        with open (self.giphyinv, "w") as jsonFile:
             json.dump(self.data, jsonFile)
 
     def add_giphy(self, name, link):
