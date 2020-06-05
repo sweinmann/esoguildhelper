@@ -19,13 +19,14 @@ if __name__ == "__main__":
     config.read('bot.conf')
     token = config['DEFAULT']['token']
     servername = config['DEFAULT']['servername']
+    giphyinv = config['DEFAULT']['giphyinv']
 
     bot = commands.Bot(command_prefix='!')
     bot.remove_command("price")
     bot.remove_command("help")
 
     #Create a new giphy object here
-    
+    giphyobj = giphy(giphyinv)
 
     @bot.event
     async def on_ready():
@@ -146,8 +147,15 @@ if __name__ == "__main__":
                     await ctx.send(embed=embed)
 
     @bot.command()
-    async def addgiphy(ctx, name, url):
+    async def add_giphy(ctx, name, url):
         giphyobj.add_giphy(name, url)
         await ctx.send("{} added a new giphy named {}".format(ctx.author.mention, name))
+
+    @bot.command()
+    async def get_giphy(ctx, name):
+        giphyimg = giphyobj.get_giphy(name)
+        embed = discord.Embed(title="Giphy Image {}".format(name), desc="Enjoy you giphy image")
+        embed.set_image(url="{}".format(giphyimg))
+        await ctx.send(embed=embed)
 
     bot.run(token)

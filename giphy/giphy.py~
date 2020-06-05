@@ -16,7 +16,7 @@ class giphy(object):
             self.__load_json()
 
     def __load_json(self):
-        with open (self.giphyinv, "r") as jsonFile:
+        with open (self.giphy, "r") as jsonFile:
             self.data = json.load(jsonFile)
 
     def __save_json(self):
