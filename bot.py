@@ -61,6 +61,9 @@ if __name__ == "__main__":
         await author.send(author, embed=embed)
 
     @bot.command()
+    @commands.has_role("Master Chef")
+    @commands.has_role("Sous Chef")
+    @commands.has_role("Sweet Roll")
     async def create_event(ctx, *args, **kwargs):
         author = get_author(ctx)
         eventobj = eventplanner(servername)
@@ -69,6 +72,9 @@ if __name__ == "__main__":
         await ctx.send("{} created a new event at {} on {} doing {} hosted by {}".format(author, time, date, description, host))
 
     @bot.command()
+    @commands.has_role("Master Chef")
+    @commands.has_role("Sous Chef")
+    @commands.has_role("Sweet Roll")
     async def initalize_events(ctx):
         author = get_author(ctx)
         eventobj = eventplanner(servername)
@@ -157,5 +163,18 @@ if __name__ == "__main__":
         embed = discord.Embed(title="Giphy Image {}".format(name), desc="Enjoy you giphy image")
         embed.set_image(url="{}".format(giphyimg))
         await ctx.send(embed=embed)
+
+    @bot.command()
+    async def search_giphy(ctx, name):
+        giphysearch = giphyobj.search_giphy(name)
+        if len(giphysearch) == 0:
+            await ctx.send("Nothing was found using the search term {}".format(name))
+        else:
+            await ctx.send("The following giphys were found with the search term {}\n{}".format(name, giphysearch))
+
+    @bot.command()
+    async def list_giphy(ctx):
+        giphys = giphyobj.list_giphy()
+        await ctx.send("Here is the list of giphys (long lists get concatenated)\n{}".format(giphys))
 
     bot.run(token)

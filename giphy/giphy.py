@@ -30,7 +30,7 @@ class giphy(object):
     def list_giphy(self):
         giphyitems = ""
         for item in self.data:
-            if len(giphyitem) > 1800:
+            if len(giphyitems) > 1800:
                 break
             else:
                 giphyitems += item + ", "
@@ -44,12 +44,11 @@ class giphy(object):
     def search_giphy(self, name):
         giphyitems = ""
         for item in self.data:
-            if len(giphyitem) > 1800:
+            if len(giphyitems) > 1800:
                 break
             else:
-                match = re.search(name, item)
-                if match.group(0):
-                    giphyitems += match.group(0) + ", "
+                if re.search(name.lower(), item.lower()):
+                    giphyitems += item + ", "
         return giphyitems[:-2]
 
     def get_giphy(self, name):
