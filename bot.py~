@@ -8,7 +8,6 @@ from discord.ext import commands
 from esoeventplanner.eventplanner import eventplanner
 from datetime import datetime
 import random
-from giphy.giphy import giphy
 
 def get_author(context):
     return str(context.author).split("#")[0]
@@ -23,9 +22,6 @@ if __name__ == "__main__":
     bot = commands.Bot(command_prefix='!')
     bot.remove_command("price")
     bot.remove_command("help")
-
-    #Create a new giphy object here
-    
 
     @bot.event
     async def on_ready():
@@ -144,10 +140,5 @@ if __name__ == "__main__":
                         if map in img['src'].lower():
                             embed.set_image(url="{}".format(img['src']))
                     await ctx.send(embed=embed)
-
-    @bot.command()
-    async def addgiphy(ctx, name, url):
-        giphyobj.add_giphy(name, url)
-        await ctx.send("{} added a new giphy named {}".format(ctx.author.mention, name))
 
     bot.run(token)
